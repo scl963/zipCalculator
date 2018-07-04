@@ -28,11 +28,15 @@ class App extends Component {
     evt.preventDefault();
     let zipOne = this.state.zipOne;
     let zipTwo = this.state.zipTwo;
+    console.log(evt)
     axios.get(`api/${zipOne}`)
       .then(res => res.data)
-      .then(data => this.setState({
-        zipOneData: data
-      }))
+      .then(data => {
+        console.log(data)
+        this.setState({
+          zipOneData: data
+        })
+      })
       .catch(error => console.error(error.response))
     axios.get(`api/${zipTwo}`)
       .then(res => res.data)

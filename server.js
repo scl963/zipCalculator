@@ -6,9 +6,19 @@ const Sequelize = require('sequelize');
 const op = Sequelize.Op;
 const bodyParser = require('body-parser');
 
+const PORT = process.env.PORT || 8800;
+
 console.log('Express server starting');
 
-app.listen(8800, console.log('Server listening on port 8800'));
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/ping', function (req, res) {
+  return res.send('pong');
+});
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 
 app.get('/api/:zipcode', function (req, res, next) {
   Location.find({
@@ -28,3 +38,5 @@ app.use(function (err, req, res, next) {
   console.error(err.stack)
   res.status(err.status || 500).send(err.message || 'Internal server error.');
 });
+
+app.listen(PORT, console.log(`Server listening on port ${PORT}`));
