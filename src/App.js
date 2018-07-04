@@ -43,13 +43,14 @@ class App extends Component {
   }
 
   validate(input) {
-    let inputValid = input.match(/[\d]{5}/) && input.length === 5 && input !== '00000';
+    let inputValid = input.match(/[\d]{5}/) && input !== '00000';
     return !inputValid;
   }
 
   render() {
     const errorOne = this.validate(this.state.zipOne);
     const errorTwo = this.validate(this.state.zipTwo);
+    const errorStyle = { color: 'red' }
     const zipOneData = this.state.zipOneData;
     const zipTwoData = this.state.zipTwoData;
 
@@ -57,15 +58,16 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
           <h1>Zip Code Distance Calculator</h1>
+          <h4>
+            This app uses the haversine formula to calculate the approximate
+            distance between US zip codes. Please enter two valid 5-digit zip
+            codes to continue.
+          </h4>
         </header>
         <div className="App-intro">
           <form
             className='ui form'
             onSubmit={this.handleSubmit}>
-            {errorOne || errorTwo ?
-              <p style={{ color: 'red' }}>Please enter two valid 5-digit US zip codes</p> :
-              ''
-            }
             <div className='field'>
               <label>Starting Zip Code</label>
               <input
@@ -87,12 +89,20 @@ class App extends Component {
             <div className='field'>
               <button disabled={errorOne || errorTwo} className='ui button' name='submit'>Get distance</button>
             </div>
-            {
-              (zipOneData && zipOneData.lat) && (zipTwoData && zipTwoData.lat) ?
-                <div style={{ margin: '1em', borderWidth: '3px', borderStyle: 'solid' }}>
-                  <Output zipOneData={zipOneData} zipTwoData={zipTwoData} />
-                </div> : ''
-            }
+            <div className='result'>
+              {
+                (zipOneData && zipOneData.lat) && (zipTwoData && zipTwoData.lat) ?
+                  <div style={{ margin: '1em', borderWidth: '3px', borderStyle: 'solid' }}>
+                    <Output zipOneData={zipOneData} zipTwoData={zipTwoData} />
+                  </div> : ''
+              }
+              {errorOne || errorTwo ?
+                <div style={errorStyle}>Please enter two valid 5-digit US zip codes</div> :
+                ''
+              }
+              {zipOneData === null ? <div style={errorStyle}>The starting zip code is invalid</div> : ''}
+              {zipTwoData === null ? <div style={errorStyle}>The destination zip code is invalid</div> : ''}
+            </div>
           </form>
         </div>
       </div >
