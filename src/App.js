@@ -28,11 +28,9 @@ class App extends Component {
     evt.preventDefault();
     let zipOne = this.state.zipOne;
     let zipTwo = this.state.zipTwo;
-    console.log(evt)
     axios.get(`api/${zipOne}`)
       .then(res => res.data)
       .then(data => {
-        console.log(data)
         this.setState({
           zipOneData: data
         })
@@ -54,7 +52,7 @@ class App extends Component {
   render() {
     const errorOne = this.validate(this.state.zipOne);
     const errorTwo = this.validate(this.state.zipTwo);
-    const errorStyle = { color: 'red' }
+    const errorStyle = { color: 'red' };
     const zipOneData = this.state.zipOneData;
     const zipTwoData = this.state.zipTwoData;
 
