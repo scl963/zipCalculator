@@ -14,4 +14,4 @@ const Output = function (props) {
   }
 };
 
-export default Output
+export default Output;
